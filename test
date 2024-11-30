@@ -1,0 +1,23 @@
+#! /bin/bash
+
+rm -rf .git
+rm .gitattributes
+
+git init
+git remote add origin git@github.com:ccrutchf/git-lfs-test.git
+git checkout -b main
+
+git add .lfsconfig
+git add test
+git commit -m "initial checkin"
+git push -fu origin main
+
+git lfs install --local
+git config lfs.standalonetransferagent git-lfs-synology
+git config lfs.customtransfer.git-lfs-synology.path `which git-lfs-synology`
+git config lfs.customtransfer.git-lfs-synology.concurrent false
+
+git lfs track *.ORF
+git add .
+git commit -m "test commit"
+git push
